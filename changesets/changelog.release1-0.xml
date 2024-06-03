@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>	
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+        http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
+
+    <changeSet id="1-createTblORGANIZATIONS" author="jlewis" labels="release-1.0.0" context="all">
+        <createTable tableName="ORGANIZATIONS">
+            <column name="ID" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="NAME" type="varchar(200)"/>
+            <column name="INDUSTRY" type="varchar(400)"/> 
+            <column name="EMPLOYEE_COUNT" type="int"/>
+        </createTable>
+    </changeSet>
+
+
+    <changeSet id="3-createTblADDRESSES" author="jlewis" labels="release-1.0.0" context="all">
+        <createTable tableName="ADDRESSES">
+            <column name="ID" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>  
+            <column name="ADDRESS!_LINE_1" type="varchar(500)"/>
+            <column name="CITY" type="varchar(200)"/> 
+            <column name="STATE" type="varchar(3)"/>
+            <column name="ZIP_CODE" type="varchar(9)"/> 
+            <column name="ORG_ID" type="int"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="4-fk-OrdID-ADDRESSEStoORGANIZATIONS" author="jlewis" labels="release-1.0.0" context="all">
+        <addForeignKeyConstraint
+            baseColumnNames="ORG_ID"
+            baseTableName="ADDRESSES"
+            constraintName="ORG_FK1"
+            referencedColumnNames="ID"
+            referencedTableName="ORGANIZATIONS"/>
+    </changeSet>
+
+    <changeSet id="5-createTblEmployees" author="jlewis" labels="release-1.0.0" context="all">
+        <createTable tableName="Employees">
+            <column name="ID" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>  
+            <column name="FIRST_NAME" type="varchar(200)"/>
+            <column name="LAST_NAME" type="varchar(200)"/> 
+            <column name="DATE_OF_BIRTH" type="date"/>
+            <column name="ORG_ID" type="int"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="6-fkOrgID-EMPLOYEEStoORGANIZATIONS" author="jlewis" labels="release-1.0.0" context="all">
+        <addForeignKeyConstraint
+            baseColumnNames="ORG_ID"
+            baseTableName="EMPLOYEES"
+            constraintName="ORG_FK2"
+            referencedColumnNames="ID"
+            referencedTableName="ORGANIZATIONS"/>
+    </changeSet>
+
+
+</databaseChangeLog>
